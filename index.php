@@ -1,40 +1,87 @@
 <?php
-// READ FILE
-// Way 1:
-// if ($th = fopen('text.txt', 'r')) {
-//     while (!feof($th)) {
-//         $line = fgets($th);
-//         echo $line . '<br>';
-//     }
-// }
-// fclose($th);
+ob_start();
+session_start();
+if (isset($_POST['form1'])) {
+    // $valid = 1;
+    // if ($_REQUEST['name'] == '') {
+    //     $valid = 0;
+    //     echo 'Name can not empty<br>';
+    // }
+    // if ($_REQUEST['email'] == '') {
+    //     $valid = 0;
+    //     echo 'Email can not empty<br>';
+    // } else {
+    //     if (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
+    //         $valid = 0;
+    //         echo 'Email must be valid';
+    //     }
+    // }
+    // if($valid == 1){
+    //    echo 'Successful';
+    // }
 
-// Way 2:
-// $line = file_get_contents('text.txt');
-// echo nl2br($line);
+    try {
+        if ($_REQUEST['name'] == '') {
+            throw new Exception("Name can not be empty");
+        }
+        if ($_REQUEST['email'] == '') {
+            throw new Exception("Email can not be empty");
+        }
+        if (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Email must be valid");
+        }
 
-// Way 3:
-// $file = file('text.txt');
-// foreach ($file as $key => $line) {
-//     echo $line . '<br>';
-// }
+        $_SESSION['success_message'] = 'Successful';
 
-// WRITE FILE
-// $filename = 'test.txt';
-// $file = fopen($filename, 'w');
-// if (!$file) {
-//     echo 'Error';
-//     exit();
-// }
-// fwrite($file, "\n10\n9");
-// fclose($file);
+        // unset($_REQUEST['name']);
+        // unset($_REQUEST['email']);
 
-// APPEND TO FILE
-// $filename = 'test.txt';
-// $file = fopen($filename, 'a');
-// if (!$file) {
-//     echo 'Error';
-//     exit();
-// }
-// fwrite($file, "\n8\n7");
-// fclose($file);
+        header('location: index.php');
+        exit;
+
+    } catch (Exception $e) {
+        $error_message = $e->getMessage();
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <?php
+    // if (isset($success_message)) {
+    //     echo '<div style="color: green;">' . $success_message . '</div>';
+    // }
+    if (isset($error_message)) {
+        echo '<div style="color: red;">' . $error_message . '</div>';
+    }
+    if(isset($_SESSION['success_message'])){
+        echo '<div style="color: green;">' . $_SESSION['success_message'] . '</div>';
+        unset($_SESSION['success_message']);
+    }
+    ?>
+    <form action="" method="post">
+        <table>
+            <tr>
+                <td>Name: </td>
+                <td><input type="text" name="name" autocomplete="off" value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name']; ?>"></td>
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td><input type="text" name="email" autocomplete="off" value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Submit" name="form1"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>
