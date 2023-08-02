@@ -1,87 +1,38 @@
 <?php
-ob_start();
-session_start();
-if (isset($_POST['form1'])) {
-    // $valid = 1;
-    // if ($_REQUEST['name'] == '') {
-    //     $valid = 0;
-    //     echo 'Name can not empty<br>';
-    // }
-    // if ($_REQUEST['email'] == '') {
-    //     $valid = 0;
-    //     echo 'Email can not empty<br>';
-    // } else {
-    //     if (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-    //         $valid = 0;
-    //         echo 'Email must be valid';
-    //     }
-    // }
-    // if($valid == 1){
-    //    echo 'Successful';
-    // }
 
-    try {
-        if ($_REQUEST['name'] == '') {
-            throw new Exception("Name can not be empty");
-        }
-        if ($_REQUEST['email'] == '') {
-            throw new Exception("Email can not be empty");
-        }
-        if (!filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception("Email must be valid");
-        }
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-        $_SESSION['success_message'] = 'Successful';
+require 'vendor/autoload.php';
 
-        // unset($_REQUEST['name']);
-        // unset($_REQUEST['email']);
+$mail = new PHPMailer(true);
 
-        header('location: index.php');
-        exit;
+try {	
+    $mail->isSMTP();
+    $mail->Host = 'sandbox.smtp.mailtrap.io';
+    $mail->SMTPAuth = true;
+    $mail->Username = '2838dfb11cf478';
+    $mail->Password = '6ff83a6c6e0a83';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 2525;
 
-    } catch (Exception $e) {
-        $error_message = $e->getMessage();
-    }
+    $mail->setFrom('contact@example.com');
+    $mail->addAddress('laiminhkiet07052002@gmail.com');
+    $mail->addReplyTo('contact@example.com');
+    $mail->addCC('cc@example.com');
+    $mail->addBCC('bcc@example.com');
+    
+    $mail->addAttachment('uploads/person.jpg', 'person.jpg');
+
+    $mail->isHTML(true);
+    $mail->Subject = 'TEST SUBJECT';
+    $mail->Body = 'TEST BODY FOR EMAIL';
+
+    $mail->send();
+
+	echo 'Message has been sent';
+} catch (Exception $e) {
+	echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <?php
-    // if (isset($success_message)) {
-    //     echo '<div style="color: green;">' . $success_message . '</div>';
-    // }
-    if (isset($error_message)) {
-        echo '<div style="color: red;">' . $error_message . '</div>';
-    }
-    if(isset($_SESSION['success_message'])){
-        echo '<div style="color: green;">' . $_SESSION['success_message'] . '</div>';
-        unset($_SESSION['success_message']);
-    }
-    ?>
-    <form action="" method="post">
-        <table>
-            <tr>
-                <td>Name: </td>
-                <td><input type="text" name="name" autocomplete="off" value="<?php if (isset($_REQUEST['name'])) echo $_REQUEST['name']; ?>"></td>
-            </tr>
-            <tr>
-                <td>Email: </td>
-                <td><input type="text" name="email" autocomplete="off" value="<?php if (isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Submit" name="form1"></td>
-            </tr>
-        </table>
-    </form>
-</body>
-
-</html>
