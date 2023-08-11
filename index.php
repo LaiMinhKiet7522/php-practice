@@ -8,22 +8,24 @@ try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    //Single Data
-    // $sql = "INSERT INTO students (firstname, lastname, email, phone) VALUES ('Lai','Kiet','laiminhkiet07052002@gmail.com','0376707091')";
-    // $conn->exec($sql);
+    // //Way 1
+    // $statement = $conn->prepare("INSERT INTO students (firstname, lastname, email, phone) VALUES (:firstname,:lastname, :email, :phone)");
+    // $statement->bindParam(':firstname', $firstname);
+    // $statement->bindParam(':lastname', $lastname);
+    // $statement->bindParam(':email', $email);
+    // $statement->bindParam(':phone', $phone);
 
-    //Multiple Data
-    // $conn->beginTransaction();
-    // $conn->exec("INSERT INTO students (firstname, lastname, email, phone) VALUES ('Le','Phuc','hoangphuc270502@gmail.com','0793442309')");
-    // $conn->exec("INSERT INTO students (firstname, lastname, email, phone) VALUES ('Le','Tuan','hoangtuan051102@gmail.com','0996527728')");
-    // $conn->exec("INSERT INTO students (firstname, lastname, email, phone) VALUES ('Ngo','Thong','ngovinhthong070802@gmail.com','0355218146')");
-    // $conn->commit();
+    // $firstname = 'John';
+    // $lastname = 'Smith';
+    // $email = 'johnsmith@gmail.com';
+    // $phone = '123-456-789';
+    // $statement->execute();
+    // echo 'Database is Created Successfully!';
 
-    $sql = "INSERT INTO students (firstname, lastname, email, phone) VALUES ('Test','Data', 'testdata@gmail.com','0996541234')";
-    $conn->exec($sql);
-    $last_id = $conn->lastInsertId();
-    echo $last_id;
-    echo '<br>';
+
+    //Way 2
+    $statement = $conn->prepare("INSERT INTO students (firstname, lastname, email, phone) VALUES (?,?,?,?)");
+    $statement->execute(['Firstname1','Lastname1','name1@gmail.com','999-8787-123']);
     echo 'Database is Created Successfully!';
 } catch (PDOException $e) {
     echo 'Connection failed ' . $e->getMessage();
