@@ -11,8 +11,14 @@ try {
     echo "Connection Error " . $e->getMessage();
 }
 
-$statement = $pdo->prepare("SELECT * FROM students WHERE firstname = ? ORDER BY ID DESC");
-$statement->execute(['Lai']);
+// $statement = $pdo->prepare("SELECT * FROM students ORDER BY ID DESC LIMIT 2 OFFSET 2");
+// $statement->execute();
+// $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Offset: 3, Limit: 2
+$statement = $pdo->prepare("SELECT * FROM students ORDER BY ID DESC LIMIT 3,2");
+$statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 echo '<pre>';
