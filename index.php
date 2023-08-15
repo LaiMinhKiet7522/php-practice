@@ -11,20 +11,12 @@ try {
     echo "Connection Error " . $e->getMessage();
 }
 
-$statement = $pdo->prepare("DELETE FROM students WHERE email = ?");
-$statement->execute(['haha@gmail.com']);
+$statement = $pdo->prepare("SELECT * FROM students WHERE firstname = ? ORDER BY ID DESC");
+$statement->execute(['Lai']);
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-
-//DELETE TABLE
-// $statement = $pdo->prepare("DROP TABLE students");
-// $statement->execute();
-
-
-//DELETE ALL DATA
-// $statement = $pdo->prepare("TRUNCATE TABLE students");
-// $statement->execute();
-
-// $statement = $pdo->prepare("DELETE FROM students");
-// $statement->execute();
+echo '<pre>';
+print_r ($result);
+echo '</pre>';
 
 
