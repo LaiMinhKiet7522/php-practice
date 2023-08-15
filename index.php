@@ -11,18 +11,95 @@ try {
     echo "Connection Error " . $e->getMessage();
 }
 
-// $statement = $pdo->prepare("SELECT * FROM students ORDER BY ID DESC LIMIT 2 OFFSET 2");
+
+$statement = $pdo->prepare("SELECT s.firstname, c.city_name
+                            FROM students s
+                            INNER JOIN cities c
+                            ON s.city_id = c.city_id
+                            WHERE c.city_name = ?");
+$statement->execute(['HCM']);
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+//LEFT JOIN
+// $statement = $conn->prepare("SELECT
+//                             s.id as sid,
+//                             s.department_id,
+//                             s.firstname,
+//                             s.lastname,
+//                             s.email,
+//                             s.age,
+//                             s.city,
+//                             d.id as did,
+//                             d.name as dname
+//                             FROM students s
+//                             LEFT JOIN departments d
+//                             ON s.department_id = d.id");
+
 // $statement->execute();
 // $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
-// Offset: 3, Limit: 2
-$statement = $pdo->prepare("SELECT * FROM students ORDER BY ID DESC LIMIT 3,2");
-$statement->execute();
-$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+//RIGHT JOIN
+// $statement = $conn->prepare("SELECT
+//                             s.id as sid,
+//                             s.department_id,
+//                             s.firstname,
+//                             s.lastname,
+//                             s.email,
+//                             s.age,
+//                             s.city,
+//                             d.id as did,
+//                             d.name as dname
+//                             FROM students s
+//                             RIGHT JOIN departments d
+//                             ON s.department_id = d.id");
+
+// $statement->execute();
+// $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+//FULL JOIN
+// $statement = $conn->prepare("SELECT
+//                             s.id as sid,
+//                             s.department_id,
+//                             s.firstname,
+//                             s.lastname,
+//                             s.email,
+//                             s.age,
+//                             s.city,
+//                             d.id as did,
+//                             d.name as dname
+//                             FROM students s
+//                             LEFT JOIN departments d
+//                             ON s.department_id = d.id
+                            
+//                             UNION
+
+//                             SELECT
+//                             s.id as sid,
+//                             s.department_id,
+//                             s.firstname,
+//                             s.lastname,
+//                             s.email,
+//                             s.age,
+//                             s.city,
+//                             d.id as did,
+//                             d.name as dname
+//                             FROM students s
+//                             RIGHT JOIN departments d
+//                             ON s.department_id = d.id
+//                             ");
+
+// $statement->execute();
+// $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 echo '<pre>';
 print_r ($result);
-echo '</pre>';
+echo '</pre>';  
 
 
