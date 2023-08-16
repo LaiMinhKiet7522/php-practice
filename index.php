@@ -11,27 +11,21 @@ try {
     echo "Connection Error " . $e->getMessage();
 }
 
-
-// $statement = $pdo->prepare("ALTER TABLE students
-//                             ADD age INT NULL");
-
-
-// DROP COLUMN
-// $statement = $pdo->prepare("ALTER TABLE students
-//                             DROP COLUMN age");
+//GROUP BY, HAVING
+// $statement = $pdo->prepare("SELECT firstname, SUM(salary) as 'Total Paid'
+//                             FROM studetns 
+//                             GROUP BY name
+//                             HAVING SUM(salary) > 100");
 
 
-// RENAME COLUMN
-// $statement = $pdo->prepare("ALTER TABLE students 
-//                             RENAME COLUMN firstname to first_name");
-
-
-
-// MODIFY COLUMN
-// $statement = $pdo->prepare("ALTER TABLE students 
-//                             MODIFY COLUMN city_id text");
-
-
+//GROUPBY WITH JOIN
+// $statement = $pdo->prepare("SELECT emp.name, SUM(salary) as 'Total Paid', dep.department_name
+//                             FROM employees emp
+//                             INNER JOIN departments dep
+//                             ON emp.department_id = dep.id
+//                             GROUP BY emp.name, dep.department_name
+//                             HAVING SUM(emp.salary) > 100
+//                             ");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
