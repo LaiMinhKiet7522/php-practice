@@ -14,8 +14,8 @@ if (isset($_POST['form1'])) {
         if ($_POST['password'] == '') {
             throw new Exception("Password can not be empty");
         }
-        $q = $pdo->prepare("SELECT * FROM users WHERE email=?");
-        $q->execute([$_POST['email']]);
+        $q = $pdo->prepare("SELECT * FROM users WHERE email=? AND status = ?");
+        $q->execute([$_POST['email'], 1]);
         $total = $q->rowCount();
         if (!$total) {
             throw new Exception('Email is not found');
@@ -45,14 +45,6 @@ if (isset($error_message)) {
     echo $error_message;
     echo '</div>';
 }
-if (isset($success_message)) {
-    echo '<div class="success" style="padding: 20px;
-    background: #c5f8c5;
-    color: #115e15;
-    font-weight: 700;">';
-    echo $success_message;
-    echo '</div>';
-}
 ?>
 <form action="" method="post">
     <table class="t2">
@@ -68,7 +60,7 @@ if (isset($success_message)) {
             <td></td>
             <td>
                 <input type="submit" value="Login" name="form1">
-                <a href="forget-password.php" class="primary_color">Forget Password</a>
+                <a href="<?php echo BASE_URL . 'forget-password.php' ?>" class="primary_color">Forget Password</a>
             </td>
         </tr>
     </table>
