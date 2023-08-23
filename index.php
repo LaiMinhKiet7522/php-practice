@@ -15,27 +15,24 @@ include_once('header.php');
         <th>Email</th>
         <th>Phone</th>
     </tr>
-    <tr>
-        <td>1</td>
-        <td>Smith</td>
-        <td>Johnson</td>
-        <td>smith@gmail.com</td>
-        <td>111111</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Ray</td>
-        <td>Manner</td>
-        <td>ray@gmail.com</td>
-        <td>222222</td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>Jessica</td>
-        <td>Robert</td>
-        <td>jessica@gmail.com</td>
-        <td>3333333</td>
-    </tr>
+    <?php
+    $i = 0;
+    $statement = $pdo->prepare("SELECT * FROM users");
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($result as $row) {
+        $i++;
+    ?>
+        <tr>
+            <td><?php echo $i; ?></td>
+            <td><?php echo $row['firstname']; ?></td>
+            <td><?php echo $row['lastname']; ?></td>
+            <td><?php echo $row['email']; ?></td>
+            <td><?php echo $row['phone']; ?></td>
+        </tr>
+    <?php
+    }
+    ?>
 </table>
 <?php
 include_once('footer.php');
