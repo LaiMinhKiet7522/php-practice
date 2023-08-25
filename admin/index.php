@@ -1,6 +1,11 @@
 <?php
 include_once("layout/top_all.php");
 ?>
+<?php 
+if(!isset($_SESSION['admin'])){
+    header('location: '.ADMIN_URL.'login.php');
+}
+?>
 
             <h1 class="page-heading">Dashboard</h1>
             <div class="row">
