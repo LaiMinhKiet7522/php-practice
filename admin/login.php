@@ -47,7 +47,8 @@ if (isset($_POST['form1'])) {
             echo '<div class="error" style =" padding: 10px;
                 background: #f7acac;
                 color: #ae1717;
-                font-weight: 700;">';
+                font-weight: 700;
+                margin-bottom: 15px;">';
             echo $error_message;
             echo '</div>';
         }
