@@ -52,6 +52,17 @@ if (isset($_POST['form1'])) {
             echo $error_message;
             echo '</div>';
         }
+        if (isset($_REQUEST['msg'])) {
+            if($_REQUEST['msg'] == 'success'){
+                echo '<div class="success" style="padding: 20px;
+                background: #c5f8c5;
+                color: #115e15;
+                font-weight: 700;
+                margin-bottom: 15px;">';
+                            echo 'Password reset is successful. You can now login with your new password';
+                            echo '</div>';
+            }
+        }
         ?>
         <form action="" method="post">
             <div class="form-floating">

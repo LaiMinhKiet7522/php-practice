@@ -1,9 +1,15 @@
-<?php 
-    ob_start();
-    session_start();
+<?php
+ob_start();
+session_start();
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require '../vendor/autoload.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +28,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
 </head>
-<?php 
-$cur_page = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],'/')+1);
+<?php
+$cur_page = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], '/') + 1);
 ?>
-<body class="<?php if($cur_page == 'login.php' || $cur_page == 'forget-password.php') {echo 'body-login';}?>"> 
+
+<body class="<?php if ($cur_page == 'login.php' || $cur_page == 'forget-password.php' || $cur_page == 'reset-password.php') {
+                    echo 'body-login';
+                } ?>">
